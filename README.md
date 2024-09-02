@@ -1,5 +1,3 @@
----
-
 # Data Analysis with R
 
 Welcome to the **Data Analysis with R** repository! This repository is organized to guide you through a comprehensive journey of data analysis using R, starting from the basics and progressing to more advanced topics. Each folder represents a key area in data analysis, providing scripts, examples, and explanations to help you master the techniques.
