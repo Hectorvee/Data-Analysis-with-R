@@ -1,0 +1,86 @@
+Certainly! Below is an R Markdown template for performing the Chi-Squared Goodness-of-Fit Test, with explanations and code for each step.
+
+```markdown
+---
+title: "Chi-Squared Goodness-of-Fit Test"
+author: "Hector Vukosi Mathonsi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## Introduction
+
+The Chi-Squared Goodness-of-Fit Test is used to determine if an observed categorical data distribution matches an expected distribution. In this example, we'll demonstrate how to perform this test using R.
+
+## Step 1: Define Observed and Expected Frequencies
+
+First, define the observed and expected frequencies of the categories you are analyzing.
+
+```{r}
+# Observed frequencies
+observed <- c(50, 30, 20)
+
+# Expected frequencies
+expected <- c(40, 30, 30)
+
+# Display the frequencies
+data.frame(Observed = observed, Expected = expected)
+```
+
+## Step 2: Perform the Chi-Squared Test
+
+You can use the `chisq.test()` function to perform the Chi-Squared Goodness-of-Fit Test. Specify the observed frequencies and the expected probabilities (expected frequencies divided by the total observations).
+
+```{r}
+# Perform the Chi-Squared Goodness-of-Fit Test
+test_result <- chisq.test(observed, p = expected / sum(expected))
+
+# Display the result
+test_result
+```
+
+## Step 3: Interpret the Results
+
+The key output from the Chi-Squared test is the test statistic and the p-value. Based on the p-value, you can decide whether to reject or fail to reject the null hypothesis.
+
+- **Null Hypothesis (H0)**: The observed data fits the expected distribution.
+- **Alternative Hypothesis (H1)**: The observed data does not fit the expected distribution.
+
+The decision rule is:
+- If the p-value is less than the significance level (commonly 0.05), reject the null hypothesis.
+- If the p-value is greater than or equal to the significance level, fail to reject the null hypothesis.
+
+```{r}
+# Check p-value
+if (test_result$p.value < 0.05) {
+  cat("We reject the null hypothesis: The observed distribution differs from the expected distribution.")
+} else {
+  cat("We fail to reject the null hypothesis: The observed distribution fits the expected distribution.")
+}
+```
+
+## Step 4: Visualize the Data (Optional)
+
+You can also visualize the observed and expected frequencies to gain a better understanding of how they compare.
+
+```{r}
+# Create a bar plot to compare observed and expected frequencies
+barplot(rbind(observed, expected), beside = TRUE, col = c("skyblue", "lightgreen"),
+        legend.text = c("Observed", "Expected"),
+        main = "Comparison of Observed and Expected Frequencies",
+        xlab = "Categories", ylab = "Frequency")
+```
+
+## Conclusion
+
+In this example, we performed the Chi-Squared Goodness-of-Fit Test and used the p-value to interpret whether the observed data matches the expected distribution. Based on this test, we can make conclusions about the fit of our data.
+```
+
+### Explanation:
+
+- **Step 1**: Defines observed and expected frequencies.
+- **Step 2**: Uses `chisq.test()` to perform the Chi-Squared Goodness-of-Fit Test.
+- **Step 3**: Shows how to interpret the p-value and the test result.
+- **Step 4**: Optionally visualizes the observed vs. expected frequencies using a bar plot.
+
+This R Markdown document provides a full explanation of each step along with the code needed to run the test.
