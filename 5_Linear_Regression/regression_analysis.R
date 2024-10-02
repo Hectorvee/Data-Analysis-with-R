@@ -45,7 +45,38 @@ View(airquality)
 # Example: Linear Regression
 # In this example, we will use the airquality dataset to predict the ozone concentration based on temperature.
 lm_model <- lm(Ozone ~ Temp, data = airquality)
-summary(lm_model)
+summary(lm_model)$sigma
+
+# Interpretation
+# The regression model shows a statistically significant relationship between temperature and Ozone levels.
+# For every 1-degree increase in temperature, Ozone levels are predicted to increase by 2.43 units.
+# the model has an R-squared value of 0.487, indicating that 48.7% of the variance in Ozone levels can be explained by temperature.
+# However, there is still a significant amount of unexplained variance, as indicated by the residual standard error.
+
+# Plotting the Regression Line
+plot(
+  airquality$Ozone ~ airquality$Temp, # The
+  xlab = "Temperature", # X-axis label
+  ylab = "Ozone", # Y-axis label
+  pch = 19, # Point character
+  col = "blue", # Point color
+  main = "Linear Regression"  # Title
+)
+
+# a <- coef(lm_model)[1] # Intercept
+# b <- coef(lm_model)[2] # Slope
+abline(lm_model, col = "red") # Add regression line
+
+# Predictions
+new_data <- data.frame(Temp = 80)
+predict(lm_model, newdata = new_data)
+
+# Residual Analysis
+plot(lm_model, which = 1) # Residuals vs Fitted
+plot(lm_model, which = 2) # Normal Q-Q plot
+plot(lm_model, which = 3) # Scale-Location plot
+plot(lm_model, which = 4) # Residuals vs Leverage
+
 
 
 
