@@ -3,4 +3,33 @@
   <component name="ProjectRootManager">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="RMarkdownSettings">
+    <option name="renderProfiles">
+      <map>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student Perfomance Sampling Data/srs.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student Perfomance Sampling Data" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student_Performance_Sampling_Data/srs.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student_Performance_Sampling_Data/srs.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student_Performance_Sampling_Data" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/RMarkdown_Intro.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/RMarkdown_Intro.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
 </project>
