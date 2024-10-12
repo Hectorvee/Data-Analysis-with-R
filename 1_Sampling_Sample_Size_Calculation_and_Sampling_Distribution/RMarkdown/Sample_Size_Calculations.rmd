@@ -1,0 +1,247 @@
+---
+title: "Sample Size Calculations"
+author: "Hector Mathonsi"
+date: "12 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+# Introduction
+When we design a study, a very important component is to determine the appropriate sample size to answer the research question. The sample size can be calculated using either the confidence interval method or the hypothesis testing method. The objective of the confidence interval method is to obtain narrow confidence intervals with high reliability/precision, while the objective of the hypothesis testing method is to ensure that the test has a certain power. For the purpose of this module we will only focus on sample size calculation for inference about a single mean and a single proportion for simple random samples without replacement (SRSWR).
+
+# Confidence interval method
+For confidence interval estimation, we want an appropriate sample size that will ensure that the margin of error at a certain level of confidence is sufficiently small to be informative and meaningful. In other words, we do not want the interval estimate to be too wide so that it makes no sense from a practical perspective. This is a practical issue rather than a statistical issue, where the analyst must specify the desired margin of error and require confidence level. The formulae for sample size calculation include population parameters, which are typically unknown. Analysts often use estimates of these parameters from previous similar or comparable studies, or by conducting a pilot study. When incorporating the finite population correction for confidence interval estimation
+from an SRSWR the sample size is:
+
+\[
+n = \frac{n_0}{1 + \frac{n_0}{N}}
+\]
+
+where:
+
+- $n_0$ is the sample size without the finite population correction (sample size for a SRSWR)
+- N is the population size
+
+## One-sample mean
+In studies where we want to estimate the mean of a continuous random variable for a single population from an SRSWR, the formula to calculate the appropriate sample size is:
+
+\[
+n_0 = \left( \frac{z_{\alpha/2} \sigma}{e} \right)^2
+\]
+
+where:
+
+- $z_{\alpha/2}$  is the value from the standard normal distribution reflecting the required confidence level
+- $\sigma$ is the population standard deviation of the variable of interest
+- $e$ is the margin of error
+
+## One-sample proportion
+In studies where we want to estimate the proportion of successes in a dichotomous random variable for a single population from an SRSWR, the formula to calculate the appropriate sample size is:
+
+\[
+n_0 = p(1-p)\left( \frac{z_{\alpha/2} \sigma}{e} \right)^2
+\]
+
+where:
+
+- $p$ is the estimated proportion of successes
+- $z_{\alpha/2}$  is the value from the standard normal distribution reflecting the required confidence level
+- $e$ is the margin of error
+
+# Using R to calculate sample size
+To determine sample sizes in R for confidence intervals we use the formulae defined above.
+
+## Exercise 1
+A researcher wants to estimate the mean systolic blood pressure of children between the ages 3 and 5 with congenital heart disease. He wants the calculated (1 – α)% CI to be within 3 units of the true mean. Assume that the population size N is large relative to any appropriate sample size, i.e., there is no need to use the finite population correction. Write a loop in R to calculate the sample sizes for the 90%, 95% and 99% confidence intervals, using three different assumed population standard deviation values of 10, 15 and 20 and create the following contingency table to summarise all the sample sizes.
+
+```{r}
+# Smaple size function
+one_sample_mean_size <- function(alpha, sigma, error_margin) {
+  results <-
+  return((qnorm(alpha/2)*sigma/error_margin)^2)
+
+}
+
+alpha_list <- c(0.1, 0.05, 0.01)
+sigma_list <- c(10, 15, 20)
+error_margin <- 3
+matrix_summary <- matrix(data = NA, nrow = 3, ncol = 3)
+colnames(matrix_summary) <- c("90% CI", "95% CI", "99% CI")
+rownames(matrix_summary) <- c("Sigma = 10", "Sigma = 15", "Sigma = 20")
+
+for (i in 1:3) {
+  for (j in 1:3) {
+    matrix_summary[i, j] <- one_sample_mean_size(alpha_list[j], sigma_list[i], error_margin)
+  }
+}
+
+data.frame(ceiling(matrix_summary))
+```
+## Exercise 2
+Suppose we want to estimate the proportion of recipes in a new cookbook that do not include any animal products. Write a function in R to calculate the SRS sample size required to attain a desired margin of error at a required confidence level for any population size. The function must give the calculated sample size when we ignore the finite population correction and when we incorporate the finite population correction. Use the function to determine the two different sample sizes for an SRS from the N = 1251 recipes such that the margin of error is 0.03 with 95% confidence.
+```{r}
+# Sample size function
+one_sample_mean_proportion <- function (alpha, p, error_margin, FPC = FALSE) {
+  n_0 <- p*(1-p)*(qnorm(alpha/2)/error_margin)^2    # Sample size without FPC
+  print(n_0)    # Print sample size without FPC
+  if (FPC) {    # Check if FPC is used
+    n <- ceiling(n_0/(1+n_0/N))  # Sample size with FPC
+    FPCComment <- "FPC Used"
+  } else {
+    n <- ceiling(n_0)   # Round up to the nearest whole number
+  }
+
+  print.noquote(paste("Sample size: ", n, FPCComment))
+}
+
+# Parameters
+alpha <- 0.05
+p <- 0.5
+error_margin <- 0.03
+N <- 1251
+
+# Calculate sample size
+one_sample_mean_proportion(alpha, p, error_margin, FPC = TRUE)
+```
+
+# Hypothesis testing method
+In hypothesis testing we account for two types of error, namely Type I and Type II. A Type I error occurs when we incorrectly reject the null hypothesis, and its probability is denoted by the significance level α. We control for this error by choosing a small value for α (1%, 5% or 10%). A Type II error occurs when we fail to reject a false null hypothesis, and its probability is denoted by β. The power of a test it defined as the tests ability to correctly reject a false null hypothesis, and its probability is denoted by 1 – β. A good hypothesis test has a low probability of a Type I error and a high power.
+
+As part of the study design we must determine the appropriate sample size that will ensure that the test has high power, where the analyst must specify the level of significance (which relates to confidence), the desired power, the variability of the variable of interest and the effect size. Note that the finite population correction is not used in sample size calculations for hypothesis testing from an SRSWR.
+
+The effect size is a practical issue rather than a statistical issue and refers to the difference between the null and alternative hypotheses values divided by the population standard deviation (typically estimated from previous similar or comparable studies, or a pilot study). Effect size, referred to as practical significance, is not the same as statistical significance. Significance shows that an effect exists in a study, while practical significance shows that the effect is large enough to be meaningful in the real world.
+
+Statistical significance can be misleading as an increase in sample size makes it more likely to find a significant effect, no matter how small the effect truly is in reality. Knowing the expected effect size means we can calculate the minimum sample size needed for enough statistical power to detect an effect of that size. The larger the effect size, the more powerful the study and the easier it is to detect an effect (meaningful difference).
+
+Guidelines for the size of the effect for hypothesis test for single means and single proportions:
+
+- Small effect size: 0.2
+- Medium effect size: 0.5
+- Large effect size: 0.8
+
+## One-sample mean
+For hypothesis testing for the mean of a continuous random variable for a single population from an SRSWR, the formula to calculate the appropriate sample size is:
+
+\[
+n = \left(\frac{z_{(1-\alpha/2)} + z_{(1-\beta)}}{d}\right)^2
+\]
+
+where:
+
+- $z_{(1-\alpha/2)}$ is the value from the standard normal distribution reflecting the required confidence level
+- $z_{(1-\beta)}$ is the value from the standard normal distribution reflecting the required power
+- $d$ is the effect size, where:
+  - $d = \frac{\mu_1 - \mu_0}{\sigma}$ , i.e., the meaningful difference in the population mean divided by the population standard deviation
+
+## One-sample proportion
+For hypothesis testing for the proportion of successes in a dichotomous random variable for a single population from an SRSWR, the formula to calculate the appropriate sample size is:
+
+\[
+n = \left(\frac{z_{(1-\alpha/2)} + z_{(1-\beta)}}{h}\right)^2
+\]
+
+where:
+
+- $z_{(1-\alpha/2)}$ is the value from the standard normal distribution reflecting the required confidence level
+- $z_{(1-\beta)}$ is the value from the standard normal distribution reflecting the required power
+- $h$ is the effect size, where:
+  - $h = \frac{p_1 - p_0}{\sqrt{p_0(1-p_0)}}$ , i.e., the meaningful difference in the population proportion divided by the square root of the product of the population proportion and the complement of the population proportion
+    - Note, this is one of many different effect size calculations for proportions, and is the formula used in R for sample size calculations.
+
+## Using R to calculate sample size
+To determine sample sizes in R for hypothesis testing, we can either use the formulae defined above or we can make use of an R package called `pwr`. This package/library is not part of the base R package and must be installed from CRAN.
+```{r}
+# Install and load the pwr package
+# install.packages("pwr")
+# library(pwr)
+```
+
+### pwr.t.test()
+The `pwr.t.test()` function is used to calculate the sample size for a hypothesis test for a single mean. The function requires the following arguments:
+
+- `n`: the sample size
+- `d`: the effect size
+- `sig.level`: the significance level
+- `power`: the power
+- `type`: the type of test
+- `alternative`: the alternative hypothesis
+
+```{r}
+# Calculate sample size for a hypothesis test for a single mean
+library(pwr)
+pwr.t.test(n = NULL, d = 0.5, sig.level = 0.05, power = 0.8, type = "one.sample", alternative = "two.sided")
+```
+
+### pwr.p.test()
+The `pwr.p.test()` function is used to calculate the sample size for a hypothesis test for a single proportion. The function requires the following arguments:
+
+- `h`: the effect size
+- `n`: the sample size
+- `sig.level`: the significance level
+- `power`: the power
+- `alternative`: the alternative hypothesis
+
+```{r}
+library(pwr)
+# Calculate sample size for a hypothesis test for a single proportion
+pwr.p.test(h = 0.5, n = NULL, sig.level = 0.05, power = 0.8, alternative = "two.sided")
+```
+
+### ES.h(p1, p2)
+The `ES.h()` function is used to calculate the effect size for a hypothesis test for a single proportion. The function requires the following arguments:
+
+- `p1`: the proportion of successes under the alternative hypothesis
+- `p2`: the proportion of successes under the null hypothesis
+
+## Exercise 3
+A researcher hypothesizes that fasting blood glucose for people without diabetes increases if they drink at least two cups of coffee per day. Previous studies have shown that the mean fasting blood glucose level in people free of diabetes is 95 mg/dL with a standard deviation of 9.8 mg/dL. If the mean fasting blood glucose level in people free of diabetes who drink at least two cups of coffee per day is 100 mg/dL, this would be viewed as significant from a practical perspective. How large a sample must be selected to ensure that the power of the test is 80% to detect this difference at a 5% level of significance? Look at how the format of the alternative hypothesis relates to the effect size value calculation.
+
+```{r}
+# Parameters
+effect_size <- (100 - 95)/9.8   # Effect size
+sig.level <- 0.05
+power <- 0.8
+
+# Calculate sample size
+
+# One sided test to the right
+pwr.t.test(n = NULL, d = effect_size, sig.level = sig.level, power = power, type = "one.sample", alternative = "greater")
+
+# If we tested for any difference, we would use the two-sided test
+pwr.t.test(n = NULL, d = effect_size, sig.level = sig.level, power = power, type = "one.sample", alternative = "two.sided")
+
+# Testing one sided to the left shows an error since the effect size is positive
+```
+
+## Exercise 4
+A medical device manufacturer produces implantable stents. Historical records showed that approximately 10% of the stents are defective. The quality control manager believes that this is no longer the case. A pilot sample showed that 13% of stents are defective. Calculate the sample size that will ensure that the appropriate hypothesis test at a 1% level of significance has 85% power to detect a 0.03 difference. Then calculate the sample size for the same criteria for small, medium and large effect sizes.
+
+```{r}
+# Parameters
+effect_size <- ES.h(0.13, 0.10)   # Effect size
+sig.level <- 0.01   # Significance level
+power <- 0.85   # Power
+
+# Calculate sample size
+pwr.p.test(h = effect_size, n = NULL, sig.level = sig.level, power = power, alternative = "two.sided")
+
+# Small effect size
+pwr.p.test(h = 0.2, n = NULL, sig.level = sig.level, power = power, alternative = "two.sided")
+
+# Medium effect size
+pwr.p.test(h = 0.5, n = NULL, sig.level = sig.level, power = power, alternative = "two.sided")
+
+# Large effect size
+pwr.p.test(h = 0.8, n = NULL, sig.level = sig.level, power = power, alternative = "two.sided")
+```
+
+
+
+
+
+
+
+

@@ -6,10 +6,26 @@
   <component name="RMarkdownSettings">
     <option name="renderProfiles">
       <map>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Clean Data.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Clean-Data.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
         <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/73e60a6a0d9245a6a88157d37a1da7c7.rmd">
           <value>
             <RMarkdownRenderProfile>
               <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/73e60a6a0d9245a6a88157d37a1da7c7.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Cluster_Random_Sampling_for_Quality_Control_in_Aluminium_Can_Production.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Cluster_Random_Sampling_for_Quality_Control_in_Aluminium_Can_Production.nb.html" />
               <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
             </RMarkdownRenderProfile>
           </value>
@@ -37,6 +53,22 @@
             </RMarkdownRenderProfile>
           </value>
         </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Sample_Size_Calculations.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Sample_Size_Calculations.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Sampling_Distributions.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Sampling_Distributions.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
         <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student Perfomance Sampling Data/srs.rmd">
           <value>
             <RMarkdownRenderProfile>
@@ -57,6 +89,14 @@
             <RMarkdownRenderProfile>
               <option name="lastOutput" value="$PROJECT_DIR$/2_Fitting_Distributions/Chi-Squared-Goodness-of-Fit-Test.html" />
               <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/2_Fitting_Distributions" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/Clean Data.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/Clean-Data.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$" />
             </RMarkdownRenderProfile>
           </value>
         </entry>

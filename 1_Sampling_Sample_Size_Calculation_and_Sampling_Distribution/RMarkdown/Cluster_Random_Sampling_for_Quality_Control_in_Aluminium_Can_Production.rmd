@@ -1,0 +1,100 @@
+---
+title: "Cluster Random Sampling for Quality Control in Aluminium Can Production"
+author: "Hector Mathonsi"
+date: "12 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+  
+# Scenario
+A manufacturing plant produces aluminium cans that are sold to other factories to fill with canned goods. The cans are packaged in cases, and each case contains 12 cans. As part of the quality control, the quality control inspector selects a random sample of cans at the end of the production cycle to estimate the proportion of defective cans produced during the cycle. It is generally assumed that the plant produces defective cans independently of one another during a cycle.
+
+# Data
+The `Cans.csv` data file contains the population data for 60 cases of cans produced during a single production cycle. Note, this level of information is typically not available and is given to you for illustration purposes.
+
+```{r}
+data_summary <- function (data) {
+  print(str(data))     # Check the structure of the data
+  print(summary(data)) # Check the summary of the data
+  print(head(data))    # Check the first few rows of the data
+}
+
+# Read in the Can data
+can_data <- read.csv("../data/Cans.csv")
+```
+
+View the can data.
+```{r}
+can_data
+
+```
+
+Call the data summary function to explore the data.
+```{r}
+# Call the data summary function to explore the data
+data_summary(can_data)
+```
+
+# Sample Methodology
+Which sample methodology do you think is the best approach to use for this problem in terms of cost, time, and representation: simple random sampling, systematic sampling, stratified random sampling, or cluster sampling? Justify your answer.
+
+Answer: Cluster sampling is the best approach to use for this problem in terms of cost, time, and representation.
+
+# Cluster Sampling
+In cluster sampling, the population is divided into clusters, and a simple random sample of clusters is selected. In this case, the clusters are the cases of cans, and we will randomly select a few cases to inspect. We will use cluster sampling to randomly select 5% of the cans produced during the cycle.
+```{r}
+set.seed(123) # Set seed for reproducibility
+smaple_size <- 0.05 * nrow(can_data) # 5% of the population
+
+```
+
+
+## Randomly select 9 cases, then randomly select 4 cans from each case
+```{r}
+case_list <- sort(sample(can_data$CaseNum, 9, replace = FALSE))
+sample_cases <- data.frame()    # Create an empty data frame to store the sample cases
+
+for (i in case_list) {
+    sample_cans <- can_data[can_data$CaseNum == i, ]
+    srs_can <- sample_cans[sort(sample(nrow(sample_cans), 4)), ]
+    sample_cases <- rbind(sample_cases, srs_can)
+}
+
+# View the sample cases
+sample_cases
+```
+
+## Create a bar graph of the number of cans selected per case
+```{r}
+barplot(table(sample_cases$CaseNum), main = "Number of Cans Selected per Case", xlab = "Case Number", ylab = "Number of Cans", col = "skyblue")
+```
+
+## Estimate the proportion of defective cans using the sample information
+```{r}
+mean(sample_cases$Defective)
+```
+
+# Simple Random Sampling
+Use simple random sampling to randomly select 1% of the cans produced during the cycle.
+```{r}
+srs_smaple <- can_data[sort(sample(nrow(can_data), 140)), ]
+srs_smaple
+```
+
+## Create a bar graph of the number of cans selected per case
+```{r}
+barplot(table(srs_smaple$CaseNum), main = "Number of Cans Selected per Case", xlab = "Case Number", ylab = "Number of Cans", col = "skyblue")
+```
+
+## Estimate the proportion of defective cans using the sample information
+```{r}
+mean(srs_smaple$Defective)
+```
+
+# Conclusion
+
+The estimate from the cluster sampling methodology is closer to the true proportion of defective cans produced during the production cycle compared to the estimate from the simple random sampling methodology.
+

@@ -26,8 +26,15 @@ data_summary <- function (data) {
 
 # Read in the Demographic data
 demographic <- read.csv("../data/Demographic.csv", header = TRUE)
-View(demographic)
+```
 
+View the demographic data.
+```{r}
+demographic # View the demographic data
+```
+
+Call the data summary function to explore the data.
+```{r}
 # Call the data summary function to explore the data
 data_summary(demographic)
 ```

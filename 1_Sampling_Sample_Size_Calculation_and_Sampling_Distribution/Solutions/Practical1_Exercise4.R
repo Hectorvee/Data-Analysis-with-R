@@ -12,7 +12,7 @@ setwd("1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 #in this example there is no rationale for stratified random sampling
 
 #import and view the Cans data
-Cans=read.csv("../data/Cans.csv", header = T)
+Cans=read.csv("data/Cans.csv", header = T)
 View(Cans)
 
 #in the notes I asked you to create an indicator of which case and can numbers

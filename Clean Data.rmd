@@ -1,0 +1,175 @@
+---
+title: "Data Cleaning in R"
+author: "Hector Mathonsi"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Introduction
+
+Data cleaning is an essential process in preparing data for analysis. This document walks through various common data cleaning tasks using R, such as handling missing values, converting data types, removing duplicates, and handling outliers.
+
+## Load Required Libraries
+
+We will be using a few essential libraries for data cleaning.
+
+```r
+# Install and load required libraries
+install.packages("dplyr")  # For data manipulation
+install.packages("tidyr")  # For tidying data
+install.packages("ggplot2")  # For visualization (optional)
+install.packages("janitor")  # For cleaning messy data
+
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(janitor)
+```
+
+## 1. Loading Data
+
+First, let's load a sample dataset. We'll use the `read.csv()` function to load a dataset.
+
+```r
+# Load sample dataset
+data <- read.csv("sample_data.csv")
+data
+
+# View the first few rows of the dataset
+head(data)
+```
+
+## 2. Data Structure and Summary
+
+It’s important to first examine the structure of the dataset and get an overview of the data.
+
+```r
+# Check the structure of the data
+str(data)
+
+# Summary of the dataset
+summary(data)
+```
+
+### 2.1 Checking for Missing Values
+
+The first step in data cleaning is to check for missing values.
+
+```r
+# Count missing values in each column
+colSums(is.na(data))
+
+# Visualize missing data
+library(ggplot2)
+ggplot(data.frame(is.na(data)), aes(x = colnames(data))) + 
+  geom_bar() + 
+  labs(title = "Missing Values in Each Column", x = "Columns", y = "Count of Missing Values")
+```
+
+## 3. Handling Missing Values
+
+You can handle missing values in different ways depending on the context. Some common strategies include:
+
+1. **Removing rows with missing values**
+2. **Filling missing values with mean/median/mode**
+3. **Filling missing values using more advanced methods (e.g., predictive models)**
+
+```r
+# Option 1: Remove rows with missing values
+data_cleaned <- na.omit(data)
+
+# Option 2: Replace missing values with column mean
+data_cleaned <- data %>%
+  mutate(across(where(is.numeric), ~ ifelse(is.na(.), mean(., na.rm = TRUE), .)))
+
+# Option 3: Replace missing values with median
+data_cleaned <- data %>%
+  mutate(across(where(is.numeric), ~ ifelse(is.na(.), median(., na.rm = TRUE), .)))
+```
+
+## 4. Correcting Data Types
+
+Sometimes, data might have incorrect types (e.g., numeric columns are read as characters). Let's correct those types.
+
+```r
+# Convert character columns to factors
+data_cleaned$Gender <- as.factor(data_cleaned$Gender)
+
+# Convert numeric columns from character to numeric
+data_cleaned$Age <- as.numeric(data_cleaned$Age)
+```
+
+## 5. Removing Duplicates
+
+Duplicate records can skew analysis, so we need to remove them.
+
+```r
+# Remove duplicate rows
+data_cleaned <- data_cleaned %>% distinct()
+
+# Check if there are still duplicates
+any(duplicated(data_cleaned))
+```
+
+## 6. Handling Outliers
+
+Outliers are extreme values that may distort analysis. You can detect outliers using visualizations or statistical methods.
+
+```r
+# Visualizing outliers with a boxplot
+ggplot(data_cleaned, aes(x = "", y = Age)) +
+  geom_boxplot() +
+  labs(title = "Boxplot to Detect Outliers", y = "Age")
+
+# Remove outliers based on Z-scores
+data_cleaned <- data_cleaned %>%
+  filter(abs(scale(Age)) < 3)  # Removing rows where Z-score > 3
+```
+
+## 7. Tidying Data
+
+Tidying the data might involve transforming it from a wide format to a long format, or vice versa.
+
+```r
+# Example of converting wide data to long data
+long_data <- data_cleaned %>%
+  pivot_longer(cols = starts_with("Var"), names_to = "Variable", values_to = "Value")
+
+# View the first few rows of the long data
+head(long_data)
+```
+
+## 8. Renaming Columns
+
+Renaming columns can make your dataset easier to understand.
+
+```r
+# Renaming columns using janitor
+data_cleaned <- data_cleaned %>% clean_names()
+
+# Alternatively, manually rename specific columns
+data_cleaned <- data_cleaned %>% 
+  rename(Gender = gender, Age = age)
+
+# View updated column names
+colnames(data_cleaned)
+```
+
+## 9. Final Cleaned Data
+
+After all cleaning steps, it is important to review the cleaned dataset before proceeding to analysis.
+
+```r
+# Final review of the cleaned data
+summary(data_cleaned)
+str(data_cleaned)
+
+# Export the cleaned dataset
+write.csv(data_cleaned, "data/cleaned_data.csv", row.names = FALSE)
+```
+
+# Conclusion
+
+Data cleaning is a critical part of any data analysis pipeline. This document covered a range of techniques including handling missing values, correcting data types, removing duplicates, handling outliers, and renaming columns. After cleaning the data, it's ready for analysis!
+```

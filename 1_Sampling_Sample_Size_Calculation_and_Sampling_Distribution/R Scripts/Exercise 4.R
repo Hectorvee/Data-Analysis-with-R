@@ -74,6 +74,7 @@ defective_proportion_population
 #3. Use simple random sampling to randomly select 1% of the cans produced during the cycle:
 # a) Randomly select n = 140 cans
 srs_sample <- can_data[sort(sample(nrow(can_data), 140)),]
+?sample()
 
 # b) Create a bar graph of the number of cans selected per case
 barplot(table(srs_sample$CaseNum), main="Number of cans selected per case", xlab="Case Number", ylab="Number of Cans")

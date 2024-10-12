@@ -1,0 +1,86 @@
+---
+title: "Sampling Distributions"
+author: "Hector Mathonsi"
+date: "13 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+# Introduction
+Sampling distributions are a fundamental concept in statistics that help us understand the behavior of sample statistics. In this notebook, we will explore the concept of sampling distributions and how they are used in statistical inference.
+
+# Parametric
+In statistical inference, sample statistics are used to estimate population parameters. To assess the accuracy of an estimate of a parameter, the probability distribution of the statistic of interest is used to place probabilistic bounds on the sampling error. The probability distribution associated with all the possible values that a statistic can assume is called the sampling distribution of the statistic. In practice, sampling is generally done without replacement. If the population is finite, or if the population is relatively small, then the finite population correction must be incorporated to derive the sampling distribution of a statistics.
+
+# Non-parametric bootstrapping
+An alternative method to estimate or approximate the sampling distribution of a statistic is through re-sampling methods. Re-sampling methods are based on taking samples from the sampled data and then using these re-samples to calculate statistics. This method can actually give more accurate answers than using the single original sample to calculate an estimate of a parameter and derive the sampling distribution. Re-sampling methods require fewer assumptions than the traditional methods and sometimes give more accurate answers. The most re-sampling common is bootstrapping.
+
+Suppose that a random sample of size n is taken from an unknown probability distribution, and the values of a variable X are observed and used to estimate a parameter. The traditional approach of estimating is to make some assumptions about the population and to derive the sampling distribution of the statistic based on these assumptions. Often the bootstrap is used to empirically verify mathematical results, and it might even be preferable to extensive mathematical calculations.
+
+In the bootstrap method the original sample takes the place that the population holds in the traditional approach. Subsequently, a random sample of size n is drawn from the sample **with replacement**, referred to as the bootstrap sample. This procedure is repeated a large number of times and the statistic of interest (say the mean) is calculated for each of the bootstrap samples, yielding a variable of means, which is then used to estimate the mean and standard error of the sampling distribution of the statistic of interest. The variation in the value of the estimator between bootstrap samples will be a measure of the variation to be expected in the estimator, had it been possible to take several samples from the population. The larger the sample size of the original sample, the more it will re-sample the population it was drawn from and the more accurate this measure of precision for the estimator will be.
+
+The general procedure for estimating the expected value and standard error of an estimator is:
+1. Generate B independent bootstrap samples, each consisting of n values selected with replacement from the sample.
+2. Compute the statistic of interest for each bootstrap sample.
+3. Calculate the mean and standard deviation of the values calculated in (2) as the estimate of the expected value and standard error of the sampling distribution of the statistic.
+
+For most statistics, the bootstrap distribution approximates the shape, spread and bias of the actual sampling distribution, but can differ in the location of the centres.
+
+## Exercise 1
+Consider the following sample of heights (measured in centimetres) of n = 22 Grade 6 learners:
+```{r}
+height_list <- c(141.0, 156.5, 162.0, 159.0, 157.0, 143.5, 154.0, 158.0, 148.5, 140.0, 138.5, 161.0, 153.0, 145.0, 147.0, 158.5, 142.0, 150.0, 160.5, 167.5, 155.0, 137.0)
+
+# Summary of the heights
+summary(height_list)
+
+# Plot the histogram of the heights
+hist(height_list, main = "Histogram of Heights", xlab = "Height (cm)", ylab = "Frequency", col = "lightblue")
+```
+
+The distribution appears to be bimodal with two peaks. The first peak is around 140-145 cm and the second peak is around 155-160 cm. The distribution is not symmetric and does not appear to be normally distributed.
+
+### 1.1 Bootstrap Sampling (B = 2)
+We now use the bootstrap method to estimate the sampling distribution of the mean height of Grade 6 learners. We will generate B = 2 bootstrap samples, each consisting of n = 22 values selected with replacement from the sample.
+```{r}
+b1 <- sample(height_list, replace = TRUE)
+b2 <- sample(height_list, replace = TRUE)
+
+# Summary of the bootstrap samples
+summary(b1)
+summary(b2)
+```
+
+### 1.2 Bootstrap Sampling (B = 100)
+Now, we generate B = 100 bootstrap samples to estimate the sampling distribution of the mean height of Grade 6 learners.
+```{r}
+# Create a matrix with the median and mean values of height for each bootstrap sample
+matrix_height <- matrix(NA, nrow = 100, ncol = 2)
+colnames(matrix_height) <- c("Mean", "Median")
+
+# Generate 100 bootstrap samples
+for (i in 1:100) {
+  sample_height <- sample(height_list, 22, replace = TRUE)
+  matrix_height[i, 1] <- mean(sample_height)
+  matrix_height[i, 2] <- median(sample_height)
+}
+
+data.frame(Boostrap_sample_No. = 1:100, matrix_height)
+
+# Plot the histogram of the mean heights
+hist(matrix_height[, 1], main = "Histogram of Mean Heights", xlab = "Mean Height (cm)", ylab = "Frequency", col = "lightblue")
+
+# Plot the histogram of the median heights
+hist(matrix_height[, 2], main = "Histogram of Median Heights", xlab = "Median Height (cm)", ylab = "Frequency", col = "lightblue")
+
+# Mean and standard deviation of the mean heights
+mean(matrix_height[, 1])
+sd(matrix_height[, 1])
+
+# Mean and standard deviation of the median heights
+mean(matrix_height[, 2])
+sd(matrix_height[, 2])
+```
