@@ -1,3 +1,5 @@
+setwd("../1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
+
 ## Simple random sample
 set.seed(1234567)
 View(iris)
@@ -12,7 +14,7 @@ srs <- iris[sort(sample(nrow(iris), 6, replace=FALSE)),]
 
 ## Exercise 1
 # 1. Import the Rectangle.csv file into R
-rectangles <- read.csv("Rectangle.csv", header=TRUE)
+rectangles <- read.csv("data/Rectangle.csv", header=TRUE)
 
 # 2. Judgment sample:
 rect_area_j <- rectangles[c(7, 13, 29, 41, 39), ]
@@ -26,7 +28,7 @@ mean(rect_area_s$Area)
 # means from the simple random samples, create a plot of each variable and describe the shape, centre and
 # variability of the variable (visually and numerically).
 
-rectangleMeans <- read.csv("RectangleMeans.csv", header=T)
+rectangleMeans <- read.csv("data/RectangleMeans.csv", header=T)
 rect_data <- round(rectangleMeans, 0) # Might lose some precision
 View(rect_data)
 hist(rect_data$`ï..judge`)

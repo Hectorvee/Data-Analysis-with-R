@@ -1,0 +1,95 @@
+---
+title: "Comparing Simple Random Sampling and Stratified Random Sampling"
+author: "Hector Mathonsi"
+date: "11 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+  
+# Scenario
+In this exercise, we compare two different sampling techniques — Simple Random Sampling (SRS) and Stratified Random Sampling (StratRS) — using an artificial population of 1600 individuals. The data contains the heights and genders of these individuals.
+
+Stratified random sampling is a method that divides the population into subgroups or strata based on certain characteristics.
+
+# Data
+The data for this analysis is contained in the file `Demographic.csv`, which contains the heights and gender of 1600 people in an artificial population. We will perform a comparison of the average height estimates obtained from both sampling techniques to the true population mean.
+
+```{r}
+data_summary <- function (data) {
+  print(str(data))     # Check the structure of the data
+  print(summary(data)) # Check the summary of the data
+  print(head(data))    # Check the first few rows of the data
+}
+
+# Read in the Demographic data
+demographic <- read.csv("../data/Demographic.csv", header = TRUE)
+View(demographic)
+
+# Call the data summary function to explore the data
+data_summary(demographic)
+```
+
+## Population Mean
+Before proceeding with sampling, we calculate the actual population mean for the height variable.
+
+```{r}
+population_mean <- mean(demographic$height)
+population_mean
+```
+
+# Simple Random Sampling
+We begin by selecting a simple random sample of size `n = 80`, which is 5% of the population, and estimating the average height from this sample.
+
+```{r}
+# Select a simple random sample (5% of the population)
+demo_srs <- demographic[sample(nrow(demographic), 80),]
+
+# Calculate the mean height from the simple random sample
+srs_mean <- mean(demo_srs$height)
+srs_mean
+```
+
+# Stratified Random Sampling
+Next, we perform a stratified random sample of size `n = 80`, where the sample is selected in proportion to the gender distribution of the population. We calculate the average height based on this stratified sample.
+
+```{r}
+# Calculate the frequency and proportions for gender
+freq_table <- table(demographic$gender)
+prop <- prop.table(freq_table)
+
+# Proportional sample size based on gender
+gender_freq <- 80 * prop
+gender_freq
+
+# Split the data by gender
+male <- demographic[demographic$gender == "M",]
+female <- demographic[demographic$gender == "F",]
+
+# Perform stratified sampling
+male_strat <- male[sort(sample(nrow(male), gender_freq["M"])), ]
+female_strat <- female[sort(sample(nrow(female), gender_freq["F"])), ]
+gender_strat <- rbind(male_strat, female_strat)
+
+# Calculate the mean height from the stratified random sample
+strat_mean <- mean(gender_strat$height)
+strat_mean
+```
+
+# Comparison of Sampling Methods
+Finally, we compare the average height estimates obtained from both sampling methods to the true population mean, and compute the absolute differences.
+
+```{r}
+# Absolute difference between the stratified sample mean and the population mean
+abs_diff_strat <- abs(strat_mean - population_mean)
+abs_diff_strat
+
+# Absolute difference between the simple random sample mean and the population mean
+abs_diff_srs <- abs(srs_mean - population_mean)
+abs_diff_srs
+```
+
+# Conclusion
+The differences between the population mean and the estimated mean from each sampling method are calculated. The comparison reveals how close each method's estimate is to the actual population mean. Stratified random sampling often provides a better estimate when there are significant differences between subgroups in the population, such as the gender distribution in this case.

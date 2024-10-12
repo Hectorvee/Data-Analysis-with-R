@@ -1,0 +1,135 @@
+---
+title: "Systematic random sampling of Starbucks Coffee Shops in Albuquerque"
+author: "Hector Mathonsi"
+date: "10 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+# Scenario
+A researcher is conducting a study to analyze the distribution of Starbucks Coffee shops in Albuquerque, New Mexico, USA. The objective is to select a random sample of these locations for further analysis. To ensure the sample is representative, the researcher considers two different sampling techniques: systematic random sampling and simple random sampling. The geographic locations of the 30 Starbucks shops in Albuquerque (hereafter referred to as ABQ) are plotted on the first map below.
+
+Systematic random sampling ensures even distribution across the population, while simple random sampling gives each shop an equal chance of being chosen, though it may lead to clusters of locations.
+
+# Data
+The dataset used in this analysis is stored in a CSV file called ABQ.csv, which contains the latitude and longitude coordinates of the 30 Starbucks Coffee shops in Albuquerque. The data was collected from the official Starbucks website and has been pre-processed and cleaned for this specific study.
+
+To load the data into R, we use the following code:
+```{r}
+set.seed(1234567)
+ABQ <- read.csv("../data/ABQ.csv", header = TRUE)
+ABQ
+```
+In addition, there is another dataset `ABQcoord.csv` that contains additional georeferenced data, including the names and coordinates of regions or neighborhoods in Albuquerque where the Starbucks shops are located:
+```{r}
+ABQcoord <- read.csv("../data/ABQcoord.csv", header = TRUE)
+ABQcoord
+```
+
+## Summary Statistics
+Before performing any sampling, we first obtain summary statistics for the data. This provides us with insights into the distribution of Starbucks locations, such as the range of latitudes and longitudes, and helps us understand the overall structure of the dataset.
+```{r}
+summary(ABQ)    # Summary statistics for the ABQ data frame
+head(ABQ)    # First 6 rows of the ABQ data frame
+str(ABQ)    # Structure of the ABQ data frame
+```
+
+## Sort the ABQ data in path order
+To implement systematic random sampling, the data needs to be sorted in some order. In this case, we will sort the Starbucks locations by a `path` variable, which could represent the order of a delivery or travel route. Sorting ensures that the selected sample is spaced at regular intervals across the dataset.
+```{r}
+ABQorder <- ABQ[order(ABQ$path), ]  # Sort the data by the path variable
+ABQorder
+```
+
+# Plot the Starbucks Coffee Shops in Albuquerque
+We begin by visualizing the 30 Starbucks shops on a map using their latitude and longitude coordinates. This helps us better understand their spatial distribution before conducting the sampling.
+```{r}
+plot(ABQ$Lattitude, ABQ$Longitude)
+text(ABQ$Lattitude, ABQ$Longitude, labels = ABQ$path, pos = 1, col = "red", cex = 0.7)
+# Add the area labels
+text(ABQcoord$Lattitude, ABQcoord$Longitude, labels = ABQcoord$Name, pos = 1, col = "blue", cex = 0.7)
+# Add the path
+lines(ABQorder$Lattitude, ABQorder$Longitude, col = "blue")
+```
+
+# Systematic Random Sampling
+
+## Explanation of Systematic Random Sampling
+Systematic random sampling is a method where elements from a population are selected at regular intervals. In this case, we will sample every `k`-th Starbucks shop along the sorted path, where `k` is calculated based on the total number of shops and the desired sample size.
+
+Systematic sampling ensures that the sample points are spaced evenly across the population, which reduces the risk of clustering and can provide better coverage of the entire area.
+
+## The value of `k`
+The value of `k` is determined by dividing the total number of Starbucks locations (30) by the desired sample size `n = 5`. This tells us the interval at which shops should be selected.
+```{r}
+k <- nrow(ABQ) / 5  # Calculate the value of
+k
+```
+
+## Randomly select a starting point = 1, 2, …, `k`
+To ensure randomness in the sampling process, we randomly choose a starting point from the first `k` shops. This step introduces randomness into the process while maintaining systematic intervals for the remaining selections.
+```{r}
+ABQsys_list <- sample(k, 1) # Randomly select a starting point
+ABQsys_list
+```
+
+## Select every `k`th location on the path
+After determining the starting point, we select every
+𝑘
+k-th location along the sorted path to form the sample of 5 Starbucks shops. This ensures that our sample is systematically spread out across Albuquerque.
+```{r}
+for (i in 2:5) {
+    ABQsys_list[i] <- ABQsys_list[i - 1] + k
+}
+ABQsys_list
+```
+
+## Visualize the Systematically Selected Sample Points
+To better understand the distribution of the systematically selected sample, we plot the sampled Starbucks locations on the map. These points will be highlighted in green.
+```{r}
+ABQsys_sample <- ABQorder[ABQsys_list, ]
+plot(ABQ$Lattitude, ABQ$Longitude)
+text(ABQ$Lattitude, ABQ$Longitude, labels = ABQ$path, pos = 1, col = "red", cex = 0.7)
+# Add the area labels
+text(ABQcoord$Lattitude, ABQcoord$Longitude, labels = ABQcoord$Name, pos = 1, col = "blue", cex = 0.7)
+# Add the path
+lines(ABQorder$Lattitude, ABQorder$Longitude, col = "blue")
+# Add the sample points
+points(ABQsys_sample$Lattitude, ABQsys_sample$Longitude, col = "green", pch = 19)
+```
+
+# Simple Random Sampling
+
+## Explanation of Simple Random Sampling
+Simple random sampling is another technique where each location has an equal probability of being selected. This method ensures randomness but may result in clusters or uneven distribution of the selected locations.
+## Select a Simple Random Sample
+Using this technique, we randomly select 5 Starbucks shops from the population of 30 without replacement. This means no shop will be selected more than once.
+```{r}
+ABQsrs_sample <- ABQ[sort(sample(nrow(ABQorder), 5, replace = FALSE)), ]
+ABQsrs_sample
+```
+
+
+## Visualize the Randomly Selected Sample Points
+To visualize the distribution of the randomly selected Starbucks shops, we plot them alongside the systematic sample. The randomly selected points will be highlighted in purple.
+```{r}
+plot(ABQ$Lattitude, ABQ$Longitude)
+text(ABQ$Lattitude, ABQ$Longitude, labels = ABQ$path, pos = 1, col = "red", cex = 0.7)
+# Add the area labels
+text(ABQcoord$Lattitude, ABQcoord$Longitude, labels = ABQcoord$Name, pos = 1, col = "blue", cex = 0.7)
+# Add the path
+lines(ABQorder$Lattitude, ABQorder$Longitude, col = "blue")
+# Add the sample points
+points(ABQsys_sample$Lattitude, ABQsys_sample$Longitude, col = "green", pch = 19)
+# Add the sample points
+points(ABQsrs_sample$Lattitude, ABQsrs_sample$Longitude, col = "purple", pch = 19)
+```
+
+# Conclusion
+In this study, we compared two sampling techniques: systematic random sampling and simple random sampling. Systematic sampling ensures an even distribution of sample points along the path, which minimizes clustering. On the other hand, simple random sampling provides an unbiased selection process, but the locations may end up clustered.
+
+Both methods have their advantages, and the choice of sampling technique depends on the goals of the analysis. For studies requiring more coverage of the population, systematic sampling is preferable. However, if true randomness is desired, simple random sampling is a better option. Both samples provide a valid and representative subset of Starbucks locations for further analysis.
+

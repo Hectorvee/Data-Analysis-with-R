@@ -1,8 +1,9 @@
+setwd("1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 #EXERCISE 2
 #set your own working directory
 
 #import and view the ABQ data
-ABQ=read.csv("ABQ.csv",header = TRUE)
+ABQ=read.csv("../data/ABQ.csv", header = TRUE)
 View(ABQ)
 
 #sort the ABQ data in path order to create the path
@@ -10,7 +11,7 @@ ABQorder=ABQ[order(ABQ$path),]
 View(ABQorder)
 
 #import the coordinates of the area labels
-ABQcoord=read.csv("ABQcoord.csv",header = TRUE)
+ABQcoord=read.csv("../data/ABQcoord.csv", header = TRUE)
 View(ABQcoord)
 
 #plot the map

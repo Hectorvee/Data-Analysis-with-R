@@ -1,8 +1,9 @@
+setwd("1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 #EXERCISE 1
 #set your own working directory
 
 #import and view the data
-Rectangle=read.csv("Rectangle.csv",header = T)
+Rectangle=read.csv("../data/Rectangle.csv", header = T)
 View(Rectangle)
 
 #for my judgement sample of size 5 I choose rectangles 18, 21, 52, 76 and 80
@@ -25,7 +26,7 @@ srs_ave
 
 #I asked students to capture the judgement and srs means from their samples
 #import and view the RectangleMeans dataset with mean from 116 students
-RectangleMeans=read.csv("RectangleMeans.csv",header = T)
+RectangleMeans=read.csv("../data/RectangleMeans.csv", header = T)
 View(RectangleMeans)
 
 #calculate averages for population and sample means

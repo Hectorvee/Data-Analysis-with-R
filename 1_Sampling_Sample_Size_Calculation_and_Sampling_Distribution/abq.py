@@ -19,13 +19,13 @@ sys_list = [start + i * k for i in range(n)]
 sys_sample = iris.iloc[sys_list]
 
 # Import ABQ data
-ABQ = pd.read_csv("ABQ.csv")
+ABQ = pd.read_csv("data/ABQ.csv")
 
 # Sort the ABQ data in path order to create the path
 ABQorder = ABQ.sort_values(by="path")
 
 # Import the coordinates of the area labels
-ABQcoord = pd.read_csv("ABQcoord.csv")
+ABQcoord = pd.read_csv("data/ABQcoord.csv")
 
 # Create base plot with ABQ data
 fig = go.Figure()

@@ -1,8 +1,9 @@
+setwd("1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 #EXERCISE 3
 #set your own working directory
 
 #import and view the Demographic data
-Demographic=read.csv("Demographic.csv",header = T)
+Demographic=read.csv("../data/Demographic.csv", header = T)
 View(Demographic)
 prop.table(table(Demographic$gender))
 

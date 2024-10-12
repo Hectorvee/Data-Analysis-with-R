@@ -1,3 +1,4 @@
+setwd("../1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 ## Stratified random sampling
 
 # Select a stratified random sample of size n = 6, without replacement, from the iris dataset, proportional to the
@@ -39,7 +40,7 @@ data_summary <- function (data) {
 
 
 # The Demographic.csv data file contains the heights and gender of 1600 people in an artificial population.
-demographic <- read.csv("Demographic.csv", header = TRUE)
+demographic <- read.csv("data/Demographic.csv", header = TRUE)
 View(demographic)
 data_summary(demographic)
 

@@ -1,3 +1,4 @@
+setwd("1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 ## Cluster Random Sampling
 
 # For illustration purposes, we assume that the three different iris species represent clusters, such that the
@@ -27,7 +28,7 @@ clust
 # during a single production cycle. Note, this level of information is typically not available and is given to you for
 # illustration purposes.
 
-can_data <- read.csv("Cans.csv")
+can_data <- read.csv("data/Cans.csv")
 View(can_data)
 
 data_summary <- function (data) {

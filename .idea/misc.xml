@@ -6,6 +6,37 @@
   <component name="RMarkdownSettings">
     <option name="renderProfiles">
       <map>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/73e60a6a0d9245a6a88157d37a1da7c7.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/73e60a6a0d9245a6a88157d37a1da7c7.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Demographics_Stratified_Random_Sampling.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Demographics_Stratified_Random_Sampling.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Random Selection of Starbucks Coffee Shops in Albuquerque.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Random-Selection-of-Starbucks-Coffee-Shops-in-Albuquerque.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown/Random_Selection_of_Starbucks_Coffee_Shops_in_Albuquerque.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
         <entry key="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student Perfomance Sampling Data/srs.rmd">
           <value>
             <RMarkdownRenderProfile>
@@ -18,6 +49,14 @@
             <RMarkdownRenderProfile>
               <option name="lastOutput" value="$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student_Performance_Sampling_Data/srs.nb.html" />
               <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution/Student_Performance_Sampling_Data" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/2_Fitting_Distributions/Chi-Squared Goodness-of-Fit Test.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/2_Fitting_Distributions/Chi-Squared-Goodness-of-Fit-Test.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/2_Fitting_Distributions" />
             </RMarkdownRenderProfile>
           </value>
         </entry>

@@ -1,3 +1,4 @@
+setwd("../1_Sampling_Sample_Size_Calculation_and_Sampling_Distribution")
 ## Systematic Random Sampling
 # For a systematic random sample of size n = 6 from thr iris dataset, the systematic increment is calculated as:
 # k = N/n = 150/6 = 25.
@@ -18,7 +19,7 @@ sys
 
 #import ABQ data
 set.seed(1234567)
-ABQ <- read.csv("ABQ.csv",header = TRUE)
+ABQ <- read.csv("data/ABQ.csv", header = TRUE)
 View(ABQ)
 
 #sort the ABQ data in path order to create the path
@@ -26,7 +27,7 @@ ABQorder <- ABQ[order(ABQ$path),]
 View(ABQorder)
 
 #import the coordinates of the area labels
-ABQcoord <- read.csv("ABQcoord.csv",header = TRUE)
+ABQcoord <- read.csv("data/ABQcoord.csv", header = TRUE)
 View(ABQcoord)
 
 #plot the map
@@ -86,17 +87,17 @@ View(ABQsrs_set)
 # 7. Plot the sampled locations selected through the two different sampling methodologies on the initial map
 # in different colours.
 points(ABQsrs_set$Lattitude, # x-axis
-      ABQsrs_set$Longitude, # y-axis
-      col="red", # color
-      pch=8,  # plot character
-      cex=1.7  # character expansion (size)
+       ABQsrs_set$Longitude, # y-axis
+       col="red", # color
+       pch=8,  # plot character
+       cex=1.7  # character expansion (size)
 )
 
 # 8. Comment on the resulting samples.
 # The systematic random sample is selected at regular intervals along the path, while the simple random sample is
-# selected randomly from the 30 locations. The systematic random sample is more evenly distributed along the path,
-# while the simple random sample may cluster in certain areas. Both samples provide a representative subset of the
-# total locations for further analysis.
+# # selected randomly from the 30 locations. The systematic random sample is more evenly distributed along the path,
+# # while the simple random sample may cluster in certain areas. Both samples provide a representative subset of the
+# # total locations for further analysis.
 
 
 
