@@ -5,7 +5,7 @@
 # parametric or non-parametric statistics tests (we will do more assumption checking in the next practical). The
 # data are given in the BSL.csv data file.
 
-bsl_data <- read.csv("BSL.csv")
+bsl_data <- read.csv("../data/BSL.csv")
 View(bsl_data)
 
 # The procedure in R to fit a continuous probability distribution, in this case the normal distribution, using the

@@ -1,0 +1,168 @@
+---
+title: "Sampling, Sample Size Calculation and Sampling Distributions"
+author: "Hector Mathonsi"
+date: "13 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+# Bootstrap Sampling
+
+## Scenario
+Waste generation around the world is growing exponentially. Historically, the proportion of South African households who recycle is very low since the country does not have a structured recycling system. Despite this there is more public awareness of the need to recycle to create a healthier planet. A market researcher wants to estimate the proportion of households in Gauteng that recycle paper, plastic, glass and aluminium cans. The recycle.csv dataset contains the results from a random sample of n = 40 households, and includes the variables: HHold, Convenience, Recycle. The variable details are given in the following:
+
+- **HHold**: Household number
+- **Convenience**: Convenience rating (Scale of 1 to 5, 1 being very inconvenient and 5 being very convenient)
+- **Recycle**: Recycling status (1 for Yes, 0 for No)
+
+## Data
+The `recycle.csv` data file contains the sample data for 40 households in Gauteng.
+```{r}
+recycle_data <- read.csv("../data/recycle.csv")    # Load the recycle data
+recycle_data
+
+summary(recycle_data)    # Summary of the recycle data
+str(recycle_data)        # Structure of the recycle data
+```
+
+## Cleaning Data
+Evaluate the quality of the data using frequency tables to identify any potential data errors/inconsistencies.
+```{r}
+table(recycle_data$Convenience)    # Frequency table for Convenience
+which(recycle_data$Convenience < 1 | recycle_data$Convenience > 5)    # Check for invalid values
+
+# Remove invalid values
+new_recycle <- recycle_data
+new_recycle[new_recycle$Convenience==11,] <- 1
+new_recycle
+
+table(recycle_data$Recycle)    # Frequency table for Recycle
+which(recycle_data$Recycle < 0 | recycle_data$Recycle > 1)    # Check for invalid values
+
+# Remove invalid values
+new_recycle <- new_recycle[-c(24,37),]
+new_recycle
+dim(new_recycle)    # Check the dimensions of the cleaned data
+```
+
+## Bootstrap Sampling
+The researcher feels that estimates from bootstrap samples will be more accurate that a single point estimate from the sample. Use your cleaned dataset to perform the following bootstrap analysis:
+
+- Draw 40 bootstrap samples of size n = 40 selected from your cleaned data of variable Recycle.
+- Create a histogram of the results of the 40 bootstrap samples.
+- Find the point estimate of variable Recycle from the cleaned dataset, and the bootstrap estimate from your bootstrap samples.
+
+```{r}
+# Bootstrap Sampling
+recycle_prop <- numeric(0)
+
+for (i in 1:40) {
+  bootstrap_sample <- sample(new_recycle$Recycle, 40, replace = TRUE)
+  recycle_prop <- rbind(recycle_prop, mean(bootstrap_sample))
+}
+
+# Create a histogram of the results of the 40 bootstrap samples
+hist(recycle_prop, main = "Bootstrap Sampling Distribution", xlab = "Recycle", ylab = "Frequency")
+
+# Point estimate of variable Recycle from the cleaned dataset
+point_estimate <- mean(new_recycle$Recycle)
+point_estimate
+
+# Bootstrap estimate from the bootstrap samples
+bootstrap_estimate <- mean(recycle_prop)
+bootstrap_estimate
+```
+
+# Systematic Sampling
+
+## Scenario
+A farmer uses a 10m × 20m field on his farm to grow spring onions twice a year (autumn and spring). In each season, he directly sows the seeds across the whole plot. Given his experience, he can sow the seeds so that they are approximately uniformly distributed across the plot. After three weeks, the seeds that germinated have grown into young plants. The farmer wants to estimate his potential crop yield. To do this, he divides the field into 200 plots of 1 square meter each and numbers the plots in a systematic manner. The following graph shows the 200 plot numbers for the field. The seedlings.csv dataset contains population information for the field on the following variables:
+Plot
+1 square meter plot numbers 1 to 200
+Xcoord
+Ycoord
+Ordered value to denote the x-coordinate of the centroid of each plot, from 1 to 20
+Ordered value to denote the y-coordinate of the centroid of each plot, from 1 to 10
+Seedlings
+Total number of seedlings per plot
+- **Plot**: 1 square meter plot numbers 1 to 200
+- **Xcoord**: Ordered value to denote the x-coordinate of the centroid of each plot, from 1 to 20
+- **Ycoord**: Ordered value to denote the y-coordinate of the centroid of each plot, from 1 to 10
+- **Seedlings**: Total number of seedlings per plot
+
+## Data
+The `spring_onions.csv` data file contains the plot numbers for the 200 plots in the field.
+```{r}
+seedlings <- read.csv("../data/seedlings.csv")    # Load the spring onions data
+seedlings
+```
+
+## Systematic Sampling
+Use systematic sampling to select a sample of size n = 33 from the list of 200 plots (round down k to the nearest integer). Create a scatter plot of the centroids of all 200 plots. Add the 33 plots from your sample to this plot, and show those in a different colour, marker type and size. Provide your R code and the graph in the answer sheet. Hint: use Help to get more information on the plot parameters, by typing par in the search box.
+```{r}
+k <- floor(200/33)
+
+sample_list <- sample(k, 1)
+
+for (i in 2:33) {
+  sample_list[i] <- sample_list[i-1] + k
+}
+
+sys_sample <- seedlings[sample_list, ]
+sys_sample
+
+# Scatter plot
+plot(x = seedlings$Xcoord, y = seedlings$Ycoord, main = "Scatter plot")
+points(sys_sample$Xcoord, sys_sample$Ycoord, pch = 17, col = "green", cex = 1.5)
+
+# Estimate total number of spring onions plants in the whole field
+mean_seedlings <- mean(seedlings$Seedlings)
+total_seedlings <- 200 * mean(seedlings$Seedlings)
+mean_seedlings
+total_seedlings
+```
+
+# Cluster Sampling
+A biologist wants to estimate the average volume of eggs of a certain species of bird. This species is known to nest in a certain area on the west coast of South Africa. Currently, there are 39 nests, and the collection of eggs in a nest is called a clutch. The number of eggs in a clutch varies between 6 and 13. The biologist believes that the variability of eggs sizes within clutches is the same across all clutches. He decides to use cluster sampling to select a random sample of 5 clutches (nests), and then use simple random sampling to select 6 eggs from each clutch, giving a total of n = 30 eggs. The eggs.csv dataset consists of the following variables for the whole population of eggs:
+
+- **CLUTCH**: Clutch number 1 to 39
+- **VOLUME**: Egg volume, calculated as 0.000507 × LENGTH × BREADTH2
+
+## Data
+The `eggs.csv` data file contains the clutch numbers and egg volumes for the 39 nests.
+```{r}
+eggs <- read.csv("../data/eggs.csv")    # Load the eggs data
+eggs
+
+summary(eggs)    # Summary of the eggs data
+str(eggs)        # Structure of the eggs data
+```
+
+## Cluster Sampling
+Use cluster sampling to select a  cluster sample from the eggs.csv dataset. List the 5 clutch numbers (clusters) you have selected. Estimate the average egg volume from your data.
+```{r}
+random_clutch <- sample(eggs$CLUTCH, 5, replace = FALSE)
+random_clutch
+clutch_dataframe <- data.frame()
+
+for (i in random_clutch) {
+  sample_eggs <- eggs[eggs$CLUTCH == i, ]
+  srs_eggs <- sample_eggs[sort(sample(nrow(sample_eggs), 6)), ]
+  clutch_dataframe <- rbind(clutch_dataframe, srs_eggs)
+}
+
+clutch_dataframe
+
+# Estimate the average egg volume
+mean(clutch_dataframe$VOLUME)
+```
+
+## Sample Size Calculation
+Let’s say that the number of eggs per batch can be classified as either small (less than 8), medium (9-10) or large (more than 10). The following table shows the mean and standard deviation of egg volume by clutch size from the population data.
+
+
+
+

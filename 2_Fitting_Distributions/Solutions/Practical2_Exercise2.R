@@ -6,7 +6,7 @@
 #H1:the data do not follow a normal distribution
 
 #import and view the data
-BSL=read.csv("BSL.csv",header = T)
+BSL=read.csv("../data/BSL.csv", header = T)
 View(BSL)
 
 #standardize the data by subtracting mu and dividing by sigma

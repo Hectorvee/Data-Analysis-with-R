@@ -2991,8 +2991,8 @@ demo_srs &lt;- demographic[sample(nrow(demographic), 80),]
 srs_mean &lt;- mean(demo_srs$height)
 srs_mean</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE2Ni43NVxuIn0= -->
-<pre><code>[1] 166.75</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE2Ny42MjVcbiJ9 -->
+<pre><code>[1] 167.625</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -3034,8 +3034,8 @@ gender_strat &lt;- rbind(male_strat, female_strat)
 strat_mean &lt;- mean(gender_strat$height)
 strat_mean</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE2NS45NzVcbiJ9 -->
-<pre><code>[1] 165.975</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDE2Ni4yODc1XG4ifQ== -->
+<pre><code>[1] 166.2875</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -3053,16 +3053,16 @@ differences.</p>
 abs_diff_strat &lt;- abs(strat_mean - population_mean)
 abs_diff_strat</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuOTkxODc1XG4ifQ== -->
-<pre><code>[1] 0.991875</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjc5Mzc1XG4ifQ== -->
+<pre><code>[1] 0.679375</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-source-begin eyJkYXRhIjpbIiMgQWJzb2x1dGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBzaW1wbGUgcmFuZG9tIHNhbXBsZSBtZWFuIGFuZCB0aGUgcG9wdWxhdGlvbiBtZWFuIiwiYWJzX2RpZmZfc3JzIDwtIGFicyhzcnNfbWVhbiAtIHBvcHVsYXRpb25fbWVhbikiLCJhYnNfZGlmZl9zcnMiXX0= -->
 <pre class="r"><code># Absolute difference between the simple random sample mean and the population mean
 abs_diff_srs &lt;- abs(srs_mean - population_mean)
 abs_diff_srs</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMjE2ODc1XG4ifQ== -->
-<pre><code>[1] 0.216875</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuNjU4MTI1XG4ifQ== -->
+<pre><code>[1] 0.658125</code></pre>
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->

@@ -1,6 +1,3 @@
-Certainly! Below is an R Markdown template for performing the Chi-Squared Goodness-of-Fit Test, with explanations and code for each step.
-
-```markdown
 ---
 title: "Chi-Squared Goodness-of-Fit Test"
 author: "Hector Vukosi Mathonsi"
@@ -75,12 +72,3 @@ barplot(rbind(observed, expected), beside = TRUE, col = c("skyblue", "lightgreen
 
 In this example, we performed the Chi-Squared Goodness-of-Fit Test and used the p-value to interpret whether the observed data matches the expected distribution. Based on this test, we can make conclusions about the fit of our data.
 ```
-
-### Explanation:
-
-- **Step 1**: Defines observed and expected frequencies.
-- **Step 2**: Uses `chisq.test()` to perform the Chi-Squared Goodness-of-Fit Test.
-- **Step 3**: Shows how to interpret the p-value and the test result.
-- **Step 4**: Optionally visualizes the observed vs. expected frequencies using a bar plot.
-
-This R Markdown document provides a full explanation of each step along with the code needed to run the test.

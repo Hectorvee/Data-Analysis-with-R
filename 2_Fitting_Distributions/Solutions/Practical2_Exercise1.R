@@ -6,7 +6,7 @@
 #H1:the data do not follow a Poisson distribution
 
 #import and view the data
-child=read.csv("child.csv",header = T)
+child=read.csv("../data/child.csv", header = T)
 View(child)
 table(child$children)
 
