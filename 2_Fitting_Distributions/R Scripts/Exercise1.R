@@ -9,7 +9,7 @@
 
 # 1) If the parameter is not assumed to be equal to a specific value, estimate the parameter (in this case λ) using
 # the average of the variable. The maximum likelihood estimate of λ is just the sample mean.
-child_data <- read.csv("../data/child.csv")
+child_data <- read.csv("data/child.csv")
 View(child_data)
 number_of_children <- table(child_data$children)
 number_of_children

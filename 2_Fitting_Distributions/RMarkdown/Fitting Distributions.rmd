@@ -1,0 +1,252 @@
+---
+title: "Fitting Distributions"
+author: "Hector Mathonsi"
+date: "13 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+## Introduction
+
+Fitting distributions to data involves finding a theoretical distribution that closely matches the empirical distribution of your sample data. This process allows you to use theoretical properties for probability calculations and inference, even though the empirical distribution will never perfectly match the theoretical one due to random variability.
+
+**Key Steps in Distribution Fitting:**
+
+- **Identify a Theoretical Distribution**: Select a theoretical distribution that might fit the empirical data.
+- **Fit the Distribution**: Use statistical methods to fit the theoretical distribution to the data.
+- **Assess the Fit**: Evaluate how well the theoretical distribution matches the empirical data.
+
+**Methods for Assessing Distribution Fit:**
+
+### Formal Methods
+
+Formal methods use calculated statistics to assess how well a distribution fits the data. They can be categorized into relative fit measures and absolute goodness-of-fit tests:
+
+#### Relative Fit Measures
+
+These measures compare the fit of multiple distributions relative to each other but do not provide an absolute measure of fit.
+
+- **Akaike Information Criterion (AIC)**: Evaluates the fit of a model by penalizing it for the number of parameters. Lower AIC values indicate a better fit.
+
+\[
+\text{AIC} = 2k - 2 \ln(L)
+\]
+
+where \(k\) is the number of parameters, and \(L\) is the likelihood of the model.
+
+- **Bayesian Information Criterion (BIC)**: Similar to AIC but with a stronger penalty for models with more parameters.
+
+\[
+\text{BIC} = \ln(n)k - 2 \ln(L)
+\]
+
+where \(n\) is the sample size.
+
+#### Absolute Goodness-of-Fit Tests
+
+These tests assess how well a theoretical distribution fits the data.
+
+- **Chi-Squared Goodness-of-Fit Test**: Used for discrete data. Compares the observed frequencies with expected frequencies.
+
+\[
+\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+\]
+
+where \(O_i\) are observed frequencies, and \(E_i\) are expected frequencies.
+
+- **Kolmogorov-Smirnov Test**: Compares the empirical cumulative distribution function (ECDF) with the theoretical cumulative distribution function (CDF).
+
+- **Anderson-Darling Test**: A modification of the Kolmogorov-Smirnov test that gives more weight to the tails of the distribution.
+
+### Informal Methods
+
+Informal methods are graphical and provide a visual assessment of the fit. They are more subjective but useful for a qualitative assessment.
+
+#### Histogram with Fitted Distribution
+
+- **Histogram**: Shows the distribution of the data.
+- **Fitted Curve**: Overlay the theoretical distribution's probability density function (PDF) on the histogram to visually assess how well the distribution fits.
+
+#### Empirical Cumulative Distribution vs. Theoretical Cumulative Distribution
+
+- **ECDF Plot**: Plots the empirical cumulative distribution of the data.
+- **Theoretical CDF**: Overlay the CDF of the theoretical distribution to see how closely they align.
+
+#### Q-Q Plot (Quantile-Quantile Plot)
+
+- **Q-Q Plot**: Plots the quantiles of the empirical data against the quantiles of the theoretical distribution. If the points lie approximately along a straight line, the fit is good.
+
+#### P-P Plot (Probability-Probability Plot)
+
+- **P-P Plot**: Plots the cumulative probabilities of the empirical data against the cumulative probabilities of the theoretical distribution. A good fit will show points close to the line \( y = x \).
+
+## Chi-Squared Goodness-of-Fit Test
+
+The Chi-squared (\(\chi^2\)) goodness-of-fit test is a statistical hypothesis test used to determine whether observed categorical data fits a specific theoretical distribution. This test is particularly useful for assessing whether the distribution of a categorical variable differs significantly from what is expected under the null hypothesis.
+
+### Overview
+
+- **Purpose**: To test if the observed frequency distribution of a categorical variable matches an expected distribution.
+- **Applications**: Commonly used in genetics (e.g., Mendelian inheritance), marketing (e.g., consumer preferences), and other fields involving categorical data.
+
+### Hypotheses
+
+- **Null Hypothesis (\(H_0\))**: The observed frequencies follow the specified theoretical distribution.
+
+\[
+H_0: \text{The distribution of the categorical variable follows the known pattern.}
+\]
+
+- **Alternative Hypothesis (\(H_1\))**: At least one observed frequency differs from the expected frequency.
+
+\[
+H_1: \text{At least one observed frequency does not follow the known pattern.}
+\]
+
+### Test Statistic
+
+The Chi-squared test statistic is calculated using the following formula:
+
+\[
+\chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}
+\]
+
+where:
+- \(k\) = Number of categories.
+- \(O_i\) = Observed frequency in category \(i\).
+- \(E_i\) = Expected frequency in category \(i\).
+
+### Degrees of Freedom (df)
+
+The degrees of freedom for the Chi-squared goodness-of-fit test depend on whether the expected proportions are fully specified or estimated from the data:
+
+- **When Expected Proportions are Fully Specified**:
+
+\[
+\text{df} = k - 1
+\]
+
+- **When Expected Proportions are Estimated from Data**:
+
+\[
+\text{df} = k - p - 1
+\]
+
+where \(p\) = Number of parameters estimated from the data.
+
+### Assumptions and Requirements
+
+1. **Independence**: Observations must be independent of each other.
+2. **Categorical Data**: The data should be in categories (nominal or ordinal).
+3. **Expected Frequency**: Each expected frequency (\(E_i\)) should be at least 5. If any \(E_i < 5\), consider combining categories or using an alternative test (e.g., Fisher’s Exact Test).
+
+### Steps to Perform the Chi-Squared Goodness-of-Fit Test
+
+1. **Define the Hypotheses**:
+   - \(H_0\): The data follows the specified distribution.
+   - \(H_1\): The data does not follow the specified distribution.
+2. **Calculate the Expected Frequencies (\(E_i\))**:
+   - Determine the expected proportion (\(p_i\)) for each category under \(H_0\).
+   - Multiply \(p_i\) by the total sample size (\(n\)) to get \(E_i = n \times p_i\).
+3. **Compute the Test Statistic (\(\chi^2\))**:
+
+    \[
+    \chi^2 = \sum_{i=1}^{k} \frac{(O_i - E_i)^2}{E_i}
+    \]
+
+4. **Determine the Degrees of Freedom (df)**:
+   - Calculate \(df\) based on the number of categories and estimated parameters.
+5. **Find the Critical Value or P-value**:
+   - Using the Chi-squared distribution table or statistical software, find the critical value for the chosen significance level (\(\alpha\)), typically 0.05.
+   - Alternatively, compute the p-value associated with the test statistic.
+6. **Make a Decision**:
+   - **Reject \(H_0\)** if \(\chi^2\) is greater than the critical value, or if the p-value is less than \(\alpha\).
+   - **Fail to Reject \(H_0\)** otherwise.
+7. **Interpret the Results**:
+   - Provide a context-specific interpretation based on the decision.
+
+### Example: Chi-Squared Goodness-of-Fit Test in R
+Suppose that we observed the following number of children in n = 100 families:
+
+| Number of children | Frequency |
+|--------------------|-----------|
+| 0                  | 19        |
+| 1                  | 26        |
+| 2                  | 29        |
+| 3                  | 13        |
+| 4+                 | 13        |
+
+Are these data consistent with a Poisson distribution? The raw data are given in the child.csv data file. Let's perform the Chi-squared goodness-of-fit test in R to answer this question.
+
+**Data Preparation**
+
+```{r}
+child_data <- read.csv("../data/child.csv")
+child_data
+
+summary(child_data) # Summary of the dataset
+str(child_data)    # Structure of the dataset
+```
+
+**Parameter Estimation**
+
+If the parameter is not assumed to be equal to a specific value, estimate the parameter (in this case λ) using the average of the variable. The maximum likelihood estimate of λ is just the sample mean (you will learn more about this in the theory lectures).
+```{r}
+# Table of observed frequencies
+observed_freq <- table(child_data$children)
+observed_freq
+```
+
+The variable has values 0 to 5, but low frequency with the value 5. It is better to combine values 4 and 5 into 1 category "4+".
+
+```{r}
+# Combine values 4 and 5 into a single category
+child_data_copy <- child_data
+child_data_copy$children[child_data_copy$children == 5] <- 4
+observed_freq <- table(child_data_copy$children)
+observed_freq
+
+# Estimated parameter (λ) using the sample mean
+lambda_hat <- mean(child_data_copy$children)
+lambda_hat
+```
+
+**Expected Frequencies**
+
+Calculate the Poisson probabilities for each of the values of the variable using the `dpois()` function. Adapt this function for the required discrete distribution. Note: for the chi-squared test all probabilities must add up to 1, so the probability of the last category must be calculated using the complement rule.
+```{r}
+poisson_prob <- dpois(0:3, lambda_hat)
+poisson_prob <- c(poisson_prob, 1-sum(poisson_prob))
+poisson_prob
+sum(poisson_prob) # Confirm that the probabilities sum to 1
+```
+
+**Chi-Squared Goodness-of-Fit Test**
+
+Perform a chi-squared test using the `chisq.test()` function.
+```{r}
+# Perform the Chi-Squared Goodness-of-Fit Test
+chi_test <- chisq.test(x = observed_freq, p = poisson_prob)
+chi_test
+
+# Check that the minimum expected frequency is at least 5
+str(chi_test$expected)
+min(chi_test$expected) >= 5
+
+# Extract the test statistic and p-value
+test_statistic <- chi_test$statistic
+p_value <- chi_test$p.value
+test_statistic
+p_value
+1-pchisq(test_statistic, df = length(observed_freq) - 1 - 1) # Confirm the p-value
+```
+
+
+
+
+
+
+
