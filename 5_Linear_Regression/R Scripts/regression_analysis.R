@@ -159,7 +159,7 @@ plot(lm_model, 4) # Residuals vs Leverage
 # model to predict sales using the other three variables.
 
 # Regression analysis
-sales <- read.csv("5_Linear_Regression/sales.csv")
+sales <- read.csv("../data/sales.csv")
 View(sales)
 
 

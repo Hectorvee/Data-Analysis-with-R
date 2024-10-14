@@ -31,7 +31,7 @@
 # same or different for two tool types (Type A coded as 0 and Type B coded as 1). The R code is as follows:
 
 # Load the data
-tool_data <- read.csv("5_Linear_Regression/tools.csv")
+tool_data <- read.csv("../data/tools.csv")
 View(tool_data)
 
 # Create a new variable X times indicator, and attach it to the dataset under a new name

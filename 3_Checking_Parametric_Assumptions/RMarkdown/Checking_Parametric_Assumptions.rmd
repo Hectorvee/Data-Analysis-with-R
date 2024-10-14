@@ -1,0 +1,135 @@
+---
+title: "Checking Parametric Assumptions"
+author: "Hector Mathonsi"
+date: "13 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+# Scenario 1: Chi-Squared Goodness-of-Fit Test
+A certain board game requires the use of a 3-sided die. It is assumed that the number of rolls of the die until the first time it lands on the number 2 is a geometric random variable with a success probability `p = 0.5` , i.e., the die is biased toward the number 2. A player bought a 3-sided die off the Internet and wants to test if this assumption is valid. He rolls the die repeatedly until it lands on the number 2 for the first time and records the number of trials (X) up to just before the first 2. He repeats the experiment 100 times. The results of the experiments are given in the dice.csv file. Use the Chi-squared goodness-of-fit test to test if `X ~ geo(0.5)` at `α = 0.05`. Show all your R code, the frequency table of the data, the vector/table of the expected proportions, and the results of the Chi-squared test. Interpret the results.
+
+## Load the Data
+```{r}
+dice <- read.csv("../data/dice.csv", header = TRUE)
+dice
+```
+
+## Perform the Chi-Squared Goodness-of-Fit Test
+```{r}
+# Frequency table
+observed <- table(dice$outcome)
+observed
+
+# Geometric Probabilities
+geo_prob <- dgeom(0:3, prob = 0.5)
+geo_prob <- c(geo_prob, 1-sum(geo_prob))
+geo_prob
+sum(geo_prob)   # Ensures that the sum is 1
+
+# Perform the Chi-Squared Goodness-of-Fit Test
+chi_test <- chisq.test(x = observed, p = geo_prob)
+chi_test
+```
+
+**Conclusion:**
+
+Since the p-value is greater than 0.05 we fail to reject the null hypothesis at the 5% level of significance. There is insufficient evidence in the data to support the alternative hypothesis that X does not follow a geometric distribution with probability 0.5. Therefore, it seems that the assumption that X ~ geo(0.5) is correct.
+
+# Scenario 2: Parametric Assumptions
+It is assumed that the diastolic blood pressure of men is normally distributed with a mean of 80 and a standard deviation of 20. The diastolic blood pressure of a random sample of `n = 50` men is give in the `BP.csv` file.
+
+## Load the Data
+```{r}
+bp <- read.csv("../data/BP.csv", header = TRUE)
+bp
+
+# Summary Statistics
+summary(bp$diastolic_bp)
+```
+
+Use a histogram to show that there is an outlying observation/error in this datafile. Use an R function to identify the outlier. Create a new datafile/vector of variable “diastolic” by removing the outlier. Use the code `BPclean=BP[-X, ]`, where X is the observation number of the outlier. Do not overwrite your original data. Provide the R code, outlier number and histogram in the answer sheet. Do not include you cleaned data in the answer sheet.
+```{r}
+# Histogram
+hist(bp$diastolic, main = "Diastolic Blood Pressure of Men", xlab = "Diastolic Blood Pressure", ylab = "Frequency", col = "lightblue")
+
+# Clean the Data
+outlier <- which(bp$diastolic > 150)
+BPclean <- bp[-(outlier), ]
+BPclean
+hist(BPclean, main = "Diastolic Blood Pressure of Men", xlab = "Diastolic Blood Pressure", ylab = "Frequency", col = "lightblue")
+```
+
+# Standardize the Data
+Standardise the variable DBP to create the empirical cumulative distribution function `(ECDF)` plot with the normal curve and a line width of 2. Specify the range for the normal curve from −3 to +6. Create the plots using the original data and using the cleaned data, using different colours for the normal curves. Plot both graphs in a single graph. Use the `par(mfrow=c(1,2))` code to set up the plot window. Add appropriate titles to your individual graphs. Provide your R code and the plot with two graphs.
+```{r}
+# Standardize the Data
+Z_BP <- (bp$distolic-mean(bp$diastolic))/sd(bp$diastolic)
+Z_BP
+Z_BP_clean <- (BPclean-mean(BPclean))/sd(BPclean)
+Z_BP_clean
+
+# ECDF Plot
+# par(mfrow=c(1,2))
+# plot(ecdf(Z_BP), main = "ECDF of Diastolic Blood Pressure")
+# curve(pnorm, from = -3, to = 6, add = T, col = "blue", lwd = 2)
+
+plot(ecdf(Z_BP_clean), main = "ECDF of Diastolic Blood Pressure (Cleaned)")
+curve(pnorm, from = -3, to = 6, add = T, col = "red", lwd = 2)
+```
+
+# Shapiro-Wilk Test
+Apply the Shapiro-Wilk’s test to both dataset (original and cleaned) to test if there is any evidence to contradict the assumption that diastolic blood pressure of men is normally distributed. Provide your R code, state the null and alternative hypotheses and interpret the p-values of the hypothesis tests in terms of the strength of the evidence for the alternative hypothesis.
+
+- **Null Hypothesis (H0):** The diastolic blood pressure of men is normally distributed.
+- **Alternative Hypothesis (H1):** The diastolic blood pressure of men is not normally distributed.
+- **Significance Level:** α = 0.05
+- **Decision Rule:** If p-value < α, reject H0.
+- **Interpretation:** If p-value > α, fail to reject H0.
+
+```{r}
+shapiro.test(bp$diastolic)
+shapiro.test(BPclean)
+```
+
+**Conclusion:**
+
+The p-value of the shapiro-wilk test for the original data is less than 0.05, therefore we reject the null hypothesis that the diastolic blood pressure of men is normally distributed. The p-value of the shapiro-wilk test for the cleaned data is greater than 0.05, therefore we fail to reject the null hypothesis that the diastolic blood of men is normally distributed.
+
+# Equal Variance Test
+The `groupdata.csv` datafile consists of measurements (variable X) for two independent groups 1 and 2 (variable GROUP).
+
+## Load the Data
+```{r}
+groupdata <- read.csv("../data/groupdata.csv", header = TRUE)
+groupdata
+
+# Summary Statistics
+summary(groupdata$X)
+```
+
+## Perform the Equal Variance Test
+Perform a two-sample Kolmogorov-Smirnov test to test whether the distribution of variable X for Group 1 is different from the distribution of variable X for Group 2. Provide your R code and output. Without performing any further tests for normality, what can you conclude from the results of the Kolmogorov-Smirnov test about the assumption of normality of variable X for each of the two independent groups? Justify your answer.
+```{r}
+group1 <- groupdata$X[groupdata$GROUP == 1]
+group2 <- groupdata$X[groupdata$GROUP == 2]
+ks.test(x = group1, y = group2)
+```
+**Conclusion:**
+
+Since the p-value is less than 0.05, we reject the null hypothesis at the 5% level of significance and conclude that the distribution of variable X is different between the two independent groups. Therefore, variable X is not normally distributed for at least one of the two groups.
+
+## Equal Variance Test
+Based on the results in Question 6, choose the appropriate test to compare the two independent group variances of variable X. Choose between the F test and the `Fligner-Kileen` test and justify your choice. Test the hypothesis at the 5% level of significance. Provide your R code, output and interpretation of the test.
+```{r}
+fligner.test(groupdata$X ~ groupdata$GROUP)
+```
+
+**Conclusion:**
+Since the p-value is less than 0.05, we reject the null hypothesis at the 5% level of significance and conclude that the variances are different.
+
+
+

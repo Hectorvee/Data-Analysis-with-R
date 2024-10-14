@@ -4,7 +4,7 @@
 # Create the interaction term for diet and age (diet × age). The data are given in the diet.csv file.
 
 # Load the data
-diet <- read.csv("5_Linear_Regression/diet.csv")
+diet <- read.csv("5_Linear_Regression/data/diet.csv")
 View(diet)
 
 # Create the interaction term

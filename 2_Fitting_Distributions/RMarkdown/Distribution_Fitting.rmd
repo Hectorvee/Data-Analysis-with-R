@@ -1,0 +1,60 @@
+---
+title: "Distributions Fitting"
+author: "Hector Mathonsi"
+date: "13 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+        number_sections: true
+---
+
+# Scenario
+At a clothing manufacturing company, a machine is set to produce a certain type of cloth in 10m rolls. As part of the quality control process, the manager selects a random sample of rolls from the weekly production to test the quality of the cloth, and records the following information:
+
+- Breaking strength of the cloth in pounds per square inch (psi)
+- Number of flaws per roll of cloth
+
+The `cloth.csv` dataset shows the data for a random sample of n = 65 rolls of cloth.
+
+# Load the Data
+```{r}
+cloth <- read.csv("../data/cloth.csv", header = TRUE)
+cloth
+```
+
+# Fit the Normal Distribution
+It is generally assumed that the breaking strength of this type of cloth is normally.
+```{r}
+# Histogram
+hist(cloth$BreakStrenght)
+```
+
+## Standardize the Data
+Standardise the breaking strength variable using the sample information. Plot the empirical distribution function together with the curve of the theoretical cdf in a different colour.
+```{r}
+Z_BS <- (cloth$BreakStrenght - mean(cloth$BreakStrenght))/sd(cloth$BreakStrenght)
+hist(Z_BS)
+plot(ecdf(Z_BS))
+curve(pnorm, add = T, col = "red", lwd = 2)
+```
+
+# Chi-Squared Goodness-of-Fit Test
+It is assumed that the number of flaws per 10m roll of cloth (X) follows a Poisson distribution with lambda equal to 1.2. Use the Chi-squared goodness-of-fit hypothesis test to test whether the number of flaws per 10m roll of cloth follows a Poisson distribution with parameter 1.2. Check that the minimum expected frequency is at least 5.
+```{r}
+# Frequency table
+observed_freq <- table(cloth$NumFlaw)
+observed_freq
+
+# Poisson Prob
+poisson_prob <- dpois(0:2, lambda = 1.2)
+poisson_prob <- c(poisson_prob, 1-sum(poisson_prob))
+poisson_prob
+sum(poisson_prob)
+
+# Chi-Squared Goodness-of-Fit Test
+chi_test <- chisq.test(x = observed_freq, p = poisson_prob)
+chi_test
+```
+
+

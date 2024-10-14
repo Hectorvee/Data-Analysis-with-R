@@ -1,0 +1,115 @@
+---
+title: "MLR Analysis"
+author: "Hector Mathonsi"
+date: "14 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+---
+
+# Parametric vs. Non-Parametric Tests
+A researcher collected data on R&D expenditure per sales ratio and the price per earnings ratio of small,
+medium and large sized companies. The `company.csv` dataset consist of the following variables:
+
+- **Size** = company size classification
+- **ESratio** = expenditure per sales ratio
+- **PEratio** = price per earnings ratio
+
+## Load the Data
+```{r}
+company <- read.csv("../data/company.csv", header = TRUE)
+company
+```
+
+## Correlation Analysis
+Calculate and compare the Pearson and the Spearman correlation coefficients between ESratio and PEratio. State whether the two coefficients are similar or different, and what this result implies about this data.
+```{r}
+cor(company$ESratio, company$PEratio, method = "pearson")
+cor(company$ESratio, company$PEratio, method = "spearman")
+```
+
+**Interpretation:**
+The two correlation coefficients are similar. This implies that the relationship between the two variables is linear and also it is unlikely that there are extreme outliers in the data.
+
+## Boxplot
+Create a box-and-whisker plot of PEratio by company size. Briefly comment on the graph.
+```{r}
+boxplot(company$PEratio ~ company$Size, main = "Price per Earnings Ratio by Company Size", xlab = "Company Size", ylab = "Price per Earnings Ratio", col = "lightblue")
+```
+
+**Comment:**
+The distributions of PERatio appear different for companies of different sizes.
+
+## Kruskal-Wallis Test
+The researcher wants to compare the PEratio by company size using non-parametric methods. Explain why this is a good approach for this data. Use the appropriate method to test the following hypothesis at the 5%
+level of significance:
+H0: are group medians are equal                 H1: at least one group has a different median
+```{r}
+kruskal.test(PEratio ~ Size, data = company)
+```
+
+**Conclusion:**
+Since the p-value is less than 0.05, we reject the null hypothesis and conclude that, at 5% of level of significance, there is sufficient evidence that at least one group has different median compared to the others.
+
+# MLR: Boiler Analysis
+In a production facility, an accurate estimate of the man-hours needed to complete a task is important to accurately plan, time and quote a project. A manufacturer of boiler drums wants to predict the number of man-hours needed to assemble and install a boiler drum at a client’s job site. To assess this, data for 34 boilers were collected. The boiler.csv data file consists of the following variables:
+
+- **Hours** = man-hours needed to install the boiler drum
+- **Capacity** = boiler capacity, in thousands of pounds per hour
+- **Pressure** = boiler design pressure, in pounds per square inch
+- **Type** = drum type, where 1 = steam, and 0 = mud
+
+## Load the Data
+```{r}
+boiler <- read.csv("../data/boiler.csv", header = TRUE)
+boiler
+```
+
+## Fit the MLR Model
+Fit a multiple linear regression model to predict Hours using Capacity and Pressure. Provide and interpret the model fit and coefficients of the regression model at the 5% level of significance.
+```{r}
+hour_model <- lm(Hours ~ Capacity + Pressure, data = boiler)
+summary(hour_model)
+```
+
+**Interpretation:**
+The multiple linear regression analysis predicts Hours needed to install boiler drum using boiler Capacity and boiler design pressure. The model is significant with p-value of 5.323e-05 which is way less than 5% and F statistic of 13.75. The intercept of the model is 240.1822 meaning that when both capacity and pressure is 0, 240.1822 hours will be needed to install the boiler drum. The capacity has a significant effect on hours with p-value of 0.000103 which is way less than 5%. The coefficient of the capacity is 5.6446 which means that for every 1 unit (thousand pound) increase, the hours will increase by 5.6446. The pressure does not have effect on hours with p-value greater than 0.05. The overall model has R-squared of 47% with the adjusted R-squared of 43.58% meaning that 47% of variation in hours is explained by the model. The model can be used to predict hours but more variables can be added to improve the model.
+
+
+## Residual Analysis
+If a Cook’s distance measure for an observation is greater than 0.5, the data point is quite likely to be an outlier. Check for outliers in the model using the Cook’s distance measure.
+```{r}
+plot(hour_model, which = 4)   # Residuals vs Leverage: Check for influential points
+```
+
+**Conclusion:**
+All the Cook’s distance values are less than 0.5. Therefore, there are no obvious outliers in the data.
+
+## Two Simple Linear Regression Models
+Compare the relationship between Capacity and Hours for the two different drum types. Fit a multiple linear regression model to compare the two simple linear regression lines of the two drum types at the 5% level of significance. Then, use the 5% level of significance to determine if the intercepts and slopes of the two regression lines are equal or not.
+```{r}
+boiler$Capacity_type <- boiler$Capacity*boiler$Type
+hour_lm <- lm(Hours ~ Type + Capacity + Capacity_type, data = boiler)
+summary(hour_lm)
+```
+
+**Conclusion:**
+Since the coefficient for the indicator (Type) is different from zero → the two intercepts are different Since the coefficient of the interaction (Type_Ind) is different from zero → the two slopes are different Therefore, Graph D best represents the two different regression lines.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

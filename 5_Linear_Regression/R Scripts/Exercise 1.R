@@ -1,7 +1,7 @@
 # 1. The mydata.csv datafile consists of one dependent variable and three independent variables, all numerical.
 
 # load the data
-mydata <- read.csv("5_Linear_Regression/mydata.csv", header = TRUE)
+mydata <- read.csv("../data/mydata.csv", header = TRUE)
 mydata <- mydata[, -which(names(mydata) == "ID")]
 View(mydata)
 

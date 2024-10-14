@@ -107,6 +107,14 @@
             </RMarkdownRenderProfile>
           </value>
         </entry>
+        <entry key="file://$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown/Distribution_Fitting.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown/Distribution_Fitting.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
         <entry key="file://$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown/Fitting Distributions.rmd">
           <value>
             <RMarkdownRenderProfile>
@@ -119,6 +127,46 @@
           <value>
             <RMarkdownRenderProfile>
               <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown/Fitting_Distributions.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown/Fitting_Distributions.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/2_Fitting_Distributions/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/3_Checking_Parametric_Assumptions/RMarkdown/Checking_Parametric_Assumptions.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/3_Checking_Parametric_Assumptions/RMarkdown/Checking_Parametric_Assumptions.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/3_Checking_Parametric_Assumptions/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/4_Comparing_Samples_Parametric_and_Non_Parametric/RMarkdown/parametric_vs_non_parametric_tests.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/4_Comparing_Samples_Parametric_and_Non_Parametric/RMarkdown/parametric_vs_non_parametric_tests.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/4_Comparing_Samples_Parametric_and_Non_Parametric/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/5_Linear_Regression/RMarkdown/MLR_Analysis.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/5_Linear_Regression/RMarkdown/MLR_Analysis.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/5_Linear_Regression/RMarkdown" />
+            </RMarkdownRenderProfile>
+          </value>
+        </entry>
+        <entry key="file://$PROJECT_DIR$/5_Linear_Regression/RMarkdown/MLR_Analysis_Test3.rmd">
+          <value>
+            <RMarkdownRenderProfile>
+              <option name="lastOutput" value="$PROJECT_DIR$/5_Linear_Regression/RMarkdown/MLR_Analysis_Test3.nb.html" />
+              <option name="outputDirectoryUrl" value="file://$PROJECT_DIR$/5_Linear_Regression/RMarkdown" />
             </RMarkdownRenderProfile>
           </value>
         </entry>

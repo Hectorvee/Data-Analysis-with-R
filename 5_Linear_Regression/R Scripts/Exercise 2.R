@@ -3,7 +3,7 @@
 # summer. The data are given in the API.csv dataset.
 
 # load the data
-api <- read.csv("5_Linear_Regression/API.csv")
+api <- read.csv("../data/API.csv")
 View(api)
 
 # a) Create a correlation matrix and discuss all pairwise linear relationships.

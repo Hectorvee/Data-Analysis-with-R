@@ -11,7 +11,7 @@
 # other three variables.
 
 # Load the dataset
-sales <- read.csv("5_Linear_Regression/sales.csv")
+sales <- read.csv("../data/sales.csv")
 View(sales)
 
 # Regression Analysis
@@ -111,7 +111,7 @@ plot(sales_model, which = 4)  # Residuals vs. Leverage
 # for each of the two test marks.
 
 # Load the dataset
-marks <- read.csv("5_Linear_Regression/marks.csv")
+marks <- read.csv("../data/marks.csv")
 View(marks)
 
 # Correlation matrix

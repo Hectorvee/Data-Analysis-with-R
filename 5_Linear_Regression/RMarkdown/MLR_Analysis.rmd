@@ -1,0 +1,76 @@
+---
+title: "MLR Analysis"
+author: "Hector Mathonsi"
+date: "14 October 2024"
+output:
+    html_notebook:
+        toc: true
+        toc_float: true
+---
+
+# MLR: Sales Analysis
+The annual data on advertising, promotions, sales expenses and sales for a sample of companies is given in the sales.csv dataset. All variables are measured in millions of dollars. Fit a MLR model to predict sales using the other three variables.
+
+## Load the Data
+```{r}
+sales <- read.csv("../data/sales.csv", header = TRUE)
+sales
+```
+
+## Fit the MLR Model
+```{r}
+sales_model <- lm(sales ~ advertising + promotion + expenses, data = sales)
+summary(sales_model)
+```
+
+Based on the F-statistic, the model is highly significant. Based on the RSE we can say that the model accurately predicts sales with about 1.292 error, on average. Based on the R2, approximately 91% of the variation in sales is explained by the variation in the three independent variables in the model. All this indicates a good model fit.
+
+## Check Multicollinearity
+```{r}
+# Check for multicollinearity
+cor(sales)
+```
+
+## Residual Analysis
+```{r}
+# Residual plot (residual vs. predicted)
+plot(sales_model, which = 1)    # Residuals vs Fitted: Check for linearity
+```
+
+There appears to be a pattern in the residuals, indicating possible non-linearity in the data. this may also be due to the presence of outliers.
+
+```{r}
+# Normal Q-Q plot
+plot(sales_model, which = 2)    # Normal Q-Q: Check for normality
+```
+
+The Q-Q plot appears to show approximately normality.
+
+```{r}
+# Scale-Location plot
+plot(sales_model, which = 3)    # Scale-Location; Check for homoscedasticity
+```
+
+The graph shows that residuals appear somewhat randomly scattered, but it is still affected by the potential outliers.
+
+```{r}
+# Residuals vs Leverage plot
+plot(sales_model, which = 4)    # Residuals vs Leverage: Check for influential points
+```
+
+The plot shows that observation 13, 16 and 22 are outliers. We could remove outliers, remove insignificant variables, or transform variables to try to improve the model. However, this is a very small dataset (n = 22) and we do not see much improvement when we do any of the above. For regression analysis, we use a rule of thumb of 10 observations for each independent variable. More data is better.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
